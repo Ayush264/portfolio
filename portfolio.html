@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Ayush Jha — Software Engineer & Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Satoshi:ital,wght@0,300;0,400;0,500;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ── RESET & BASE ─────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0a0a0f;
+  --ink2:#111118;
+  --paper:#f5f3ee;
+  --paper2:#ede9e0;
+  --white:#ffffff;
+  --muted:#9a9a9a;
+  --muted2:#6b6b6b;
+  --accent:#ff4d2e;
+  --accent2:#7c3aed;
+  --accent3:#0ea5e9;
+  --green:#10b981;
+  --gold:#f59e0b;
+  --border:rgba(255,255,255,0.07);
+  --border-light:rgba(0,0,0,0.08);
+  --r:16px;
+  --r2:24px;
+  --max:1200px;
+  --nav-h:68px;
+  font-size:16px;
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;cursor:none}
+body{
+  font-family:'Satoshi',system-ui,sans-serif;
+  background:var(--ink);color:#e8e6e0;
+  overflow-x:hidden;cursor:none;
+}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+ul{list-style:none}
+
+/* ── CUSTOM CURSOR ────────────────────────────── */
+#cursor{
+  position:fixed;top:0;left:0;z-index:9999;pointer-events:none;
+  mix-blend-mode:difference;
+}
+#cursor-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:#fff;
+  position:absolute;transform:translate(-50%,-50%);
+  transition:width .15s,height .15s,opacity .15s;
+}
+#cursor-ring{
+  width:36px;height:36px;border-radius:50%;
+  border:1px solid rgba(255,255,255,0.5);
+  position:absolute;transform:translate(-50%,-50%);
+  transition:width .3s cubic-bezier(.175,.885,.32,1.275),
+             height .3s cubic-bezier(.175,.885,.32,1.275),
+             opacity .2s;
+}
+body:hover #cursor-ring{opacity:1}
+
+/* ── NOISE GRAIN OVERLAY ─────────────────────── */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;
+  opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px;
+}
+
+/* ── TYPOGRAPHY ───────────────────────────────── */
+.clash{font-family:'Clash Display',sans-serif}
+.mono{font-family:'DM Mono',monospace}
+
+/* ── NAV ──────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  height:var(--nav-h);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(1.5rem,5vw,3.5rem);
+  background:rgba(10,10,15,0.6);
+  backdrop-filter:blur(24px) saturate(180%);
+  border-bottom:1px solid var(--border);
+  transition:background .3s;
+}
+.nav-logo{
+  font-family:'Clash Display',sans-serif;
+  font-weight:700;font-size:1.1rem;letter-spacing:-0.03em;
+  display:flex;align-items:center;gap:.5rem;
+}
+.nav-logo-mark{
+  width:32px;height:32px;border-radius:8px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-weight:700;color:#fff;letter-spacing:0;
+  flex-shrink:0;
+}
+.nav-links{display:flex;align-items:center;gap:.25rem}
+.nav-links a{
+  font-size:.82rem;font-weight:500;color:rgba(232,230,224,.6);
+  padding:.45rem .85rem;border-radius:8px;
+  transition:color .2s,background .2s;letter-spacing:.01em;
+}
+.nav-links a:hover,.nav-links a.active{color:#e8e6e0;background:rgba(255,255,255,.06)}
+.nav-cta{
+  font-size:.8rem;font-weight:600;
+  padding:.5rem 1.2rem;border-radius:100px;
+  background:var(--accent);color:#fff!important;
+  transition:transform .2s,box-shadow .2s!important;
+  background:rgba(255,255,255,.08)!important;border:1px solid rgba(255,255,255,.12)!important;
+  color:rgba(232,230,224,.9)!important;
+}
+.nav-cta:hover{background:var(--accent)!important;border-color:var(--accent)!important;color:#fff!important;transform:translateY(-1px)}
+.nav-menu-btn{display:none;flex-direction:column;gap:4px;cursor:none;padding:4px}
+.nav-menu-btn span{width:22px;height:2px;background:rgba(232,230,224,.8);border-radius:2px;transition:.3s}
+
+/* ── PAGE SYSTEM ──────────────────────────────── */
+.page{display:none;min-height:100vh;padding-top:var(--nav-h)}
+.page.active{display:block}
+
+/* ── HERO PAGE ────────────────────────────────── */
+#page-home{background:var(--ink);overflow:hidden}
+
+.hero{
+  min-height:calc(100vh - var(--nav-h));
+  display:grid;align-items:center;
+  padding:4rem clamp(1.5rem,5vw,3.5rem) 3rem;
+  max-width:var(--max);margin:0 auto;
+  position:relative;
+}
+
+/* BIG DECORATIVE LETTER */
+.hero-bg-letter{
+  position:absolute;right:-2%;top:50%;transform:translateY(-55%);
+  font-family:'Clash Display',sans-serif;
+  font-size:clamp(280px,35vw,520px);
+  font-weight:700;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,.035);
+  line-height:1;pointer-events:none;user-select:none;
+  letter-spacing:-0.05em;
+}
+
+.hero-eyebrow{
+  display:flex;align-items:center;gap:.75rem;
+  margin-bottom:2.5rem;
+  font-family:'DM Mono',monospace;
+  font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+}
+.hero-eyebrow-line{width:36px;height:1px;background:var(--muted)}
+.hero-eyebrow-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 8px var(--green);
+  animation:pulse-dot 2.5s infinite;
+}
+@keyframes pulse-dot{0%,100%{box-shadow:0 0 8px var(--green)}50%{box-shadow:0 0 20px var(--green)}}
+
+.hero-h1{
+  font-family:'Clash Display',sans-serif;
+  font-size:clamp(3.2rem,9vw,8.5rem);
+  font-weight:700;line-height:.95;
+  letter-spacing:-0.04em;
+  margin-bottom:2.5rem;
+  max-width:900px;
+}
+.hero-h1 em{
+  font-style:normal;
+  background:linear-gradient(135deg,var(--accent) 0%,#ff8c6b 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-h1 .outline-text{
+  -webkit-text-stroke:2px rgba(232,230,224,.2);
+  color:transparent;
+}
+
+.hero-bottom{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:2rem;align-items:end;
+  border-top:1px solid var(--border);
+  padding-top:2.5rem;
+  margin-top:2.5rem;
+}
+.hero-desc{
+  font-size:1rem;font-weight:300;
+  color:rgba(232,230,224,.6);line-height:1.75;
+  grid-column:1/3;
+  max-width:520px;
+}
+.hero-desc strong{color:#e8e6e0;font-weight:500}
+.hero-actions{
+  display:flex;flex-direction:column;gap:.75rem;align-items:flex-end;
+}
+
+/* ── BUTTONS ──────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.85rem;font-weight:600;
+  border-radius:100px;padding:.7rem 1.6rem;
+  transition:transform .2s,box-shadow .2s;
+  letter-spacing:.01em;cursor:none;
+  position:relative;overflow:hidden;
+}
+.btn::before{
+  content:'';position:absolute;inset:0;
+  background:rgba(255,255,255,.08);
+  transform:translateX(-100%);
+  transition:transform .3s cubic-bezier(.25,.46,.45,.94);
+}
+.btn:hover::before{transform:translateX(0)}
+.btn-solid{background:var(--accent);color:#fff}
+.btn-solid:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(255,77,46,.3)}
+.btn-outline{background:transparent;color:rgba(232,230,224,.85);border:1px solid rgba(255,255,255,.15)}
+.btn-outline:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.3)}
+.btn-sm{padding:.5rem 1.1rem;font-size:.78rem}
+
+/* SCROLL INDICATOR */
+.scroll-indicator{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  font-family:'DM Mono',monospace;font-size:.65rem;
+  color:var(--muted);letter-spacing:.08em;text-transform:uppercase;
+  animation:float 3s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-6px)}}
+.scroll-arrow{width:1px;height:40px;background:linear-gradient(to bottom,transparent,var(--muted));position:relative}
+.scroll-arrow::after{
+  content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  border-left:4px solid transparent;border-right:4px solid transparent;
+  border-top:5px solid var(--muted);
+}
+
+/* MARQUEE */
+.marquee-section{
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:1.1rem 0;overflow:hidden;
+  background:rgba(255,255,255,.018);
+  margin-top:3rem;
+}
+.marquee-track{
+  display:flex;gap:0;
+  animation:marquee 28s linear infinite;
+  width:max-content;
+}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.marquee-item{
+  white-space:nowrap;padding:0 3rem;
+  font-family:'Clash Display',sans-serif;
+  font-size:.78rem;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(232,230,224,.3);
+  display:flex;align-items:center;gap:3rem;
+}
+.marquee-item span{color:var(--accent);font-size:1.1rem}
+
+/* STATS STRIP */
+.stats-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-bottom:1px solid var(--border);
+}
+.stat-box{
+  padding:2.5rem clamp(1.5rem,3vw,3rem);
+  border-right:1px solid var(--border);
+}
+.stat-box:last-child{border-right:none}
+.stat-num{
+  font-family:'Clash Display',sans-serif;
+  font-size:clamp(2.2rem,4vw,3.8rem);
+  font-weight:700;line-height:1;
+  letter-spacing:-0.04em;
+  background:linear-gradient(135deg,#e8e6e0,rgba(232,230,224,.5));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:.4rem;
+}
+.stat-label{font-size:.78rem;color:var(--muted);letter-spacing:.04em}
+
+/* ── WORK / PROJECTS PAGE ────────────────────── */
+#page-work{background:var(--ink)}
+
+.work-header{
+  padding:4rem clamp(1.5rem,5vw,3.5rem) 0;
+  max-width:var(--max);margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:3rem;align-items:end;
+  border-bottom:1px solid var(--border);
+  padding-bottom:3rem;
+}
+.work-h1{
+  font-family:'Clash Display',sans-serif;
+  font-size:clamp(2.8rem,7vw,6rem);
+  font-weight:700;line-height:.95;letter-spacing:-0.04em;
+}
+.work-h1 em{font-style:normal;color:var(--accent)}
+.work-meta{
+  display:flex;flex-direction:column;gap:1rem;justify-content:flex-end;
+}
+.work-meta p{font-size:.95rem;color:rgba(232,230,224,.55);font-weight:300;line-height:1.7;max-width:380px}
+.project-count{
+  font-family:'DM Mono',monospace;font-size:.7rem;
+  color:var(--accent);letter-spacing:.1em;text-transform:uppercase;
+}
+
+/* PROJECT LIST */
+.project-list{max-width:var(--max);margin:0 auto;padding:0 clamp(1.5rem,5vw,3.5rem)}
+.project-row{
+  display:grid;grid-template-columns:80px 1fr auto;
+  gap:2rem;align-items:center;
+  padding:2rem 0;
+  border-bottom:1px solid var(--border);
+  cursor:none;
+  transition:background .2s;
+  position:relative;
+}
+.project-row::before{
+  content:'';position:absolute;left:-3.5rem;right:-3.5rem;top:0;bottom:0;
+  background:rgba(255,255,255,.02);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .3s cubic-bezier(.25,.46,.45,.94);
+  z-index:0;
+}
+.project-row:hover::before{transform:scaleX(1)}
+.project-row>*{position:relative;z-index:1}
+.proj-idx{
+  font-family:'DM Mono',monospace;
+  font-size:.72rem;color:var(--muted);letter-spacing:.06em;
+}
+.proj-main{}
+.proj-name{
+  font-family:'Clash Display',sans-serif;
+  font-size:clamp(1.4rem,3vw,2.4rem);
+  font-weight:600;letter-spacing:-0.03em;
+  margin-bottom:.3rem;
+  transition:color .2s;
+}
+.project-row:hover .proj-name{color:var(--accent)}
+.proj-tagline{font-size:.82rem;color:var(--muted);font-weight:300}
+.proj-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.6rem}
+.ptag{
+  font-family:'DM Mono',monospace;font-size:.65rem;
+  padding:.2rem .55rem;border-radius:4px;
+  border:1px solid rgba(255,255,255,.09);color:rgba(232,230,224,.5);
+}
+.proj-right{
+  display:flex;flex-direction:column;align-items:flex-end;gap:.75rem;
+  min-width:140px;
+}
+.proj-type-badge{
+  font-family:'DM Mono',monospace;font-size:.65rem;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);
+}
+.proj-links{display:flex;gap:.5rem}
+.proj-link-btn{
+  width:38px;height:38px;border-radius:10px;
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;transition:all .2s;color:rgba(232,230,224,.6);
+}
+.proj-link-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(255,77,46,.07)}
+
+/* CASE STUDY ACCORDION */
+.cs-panel{
+  max-height:0;overflow:hidden;
+  transition:max-height .5s cubic-bezier(.25,.46,.45,.94);
+  grid-column:1/-1;
+}
+.project-row.expanded .cs-panel{max-height:400px}
+.cs-inner{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;
+  padding:1.5rem 0 1rem;
+}
+.cs-block{
+  background:rgba(255,255,255,.025);
+  border:1px solid var(--border);
+  border-radius:var(--r);padding:1.1rem;
+}
+.cs-label{font-family:'DM Mono',monospace;font-size:.63rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
+.cs-text{font-size:.82rem;color:rgba(232,230,224,.65);line-height:1.6}
+.cs-text.impact{color:var(--green);font-weight:500}
+
+/* CLIENT SECTION */
+.client-section{
+  padding:4rem clamp(1.5rem,5vw,3.5rem);
+  max-width:var(--max);margin:0 auto;
+  border-top:1px solid var(--border);
+}
+.client-eyebrow{
+  font-family:'DM Mono',monospace;font-size:.7rem;
+  color:var(--muted);letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:2rem;
+}
+.clients-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:.75rem;
+}
+.client-tile{
+  display:flex;align-items:center;gap:1rem;
+  padding:1rem 1.25rem;
+  background:rgba(255,255,255,.025);
+  border:1px solid var(--border);border-radius:var(--r);
+  text-decoration:none;color:inherit;
+  transition:all .25s;position:relative;overflow:hidden;
+}
+.client-tile::after{
+  content:'↗';position:absolute;right:1rem;
+  font-size:1rem;color:var(--accent);
+  transform:translate(10px,-10px);opacity:0;
+  transition:all .25s;
+}
+.client-tile:hover{border-color:rgba(255,255,255,.12);transform:translateY(-3px);background:rgba(255,255,255,.04)}
+.client-tile:hover::after{transform:translate(0,0);opacity:1}
+.c-emoji{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.c-name{font-size:.88rem;font-weight:600;margin-bottom:.1rem}
+.c-url{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted)}
+
+/* ── ABOUT PAGE ───────────────────────────────── */
+#page-about{background:var(--ink)}
+
+.about-hero{
+  padding:4rem clamp(1.5rem,5vw,3.5rem);
+  max-width:var(--max);margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:4rem;align-items:start;
+}
+.about-big-h{
+  font-family:'Clash Display',sans-serif;
+  font-size:clamp(3rem,8vw,7.5rem);
+  font-weight:700;line-height:.92;
+  letter-spacing:-0.05em;
+  margin-bottom:2rem;
+}
+.about-big-h em{font-style:normal;-webkit-text-stroke:2px rgba(232,230,224,.2);color:transparent}
+.about-tagline{
+  font-size:1.15rem;font-weight:300;
+  color:rgba(232,230,224,.6);line-height:1.8;
+  margin-bottom:2rem;max-width:480px;
+}
+.about-tagline strong{color:#e8e6e0;font-weight:500}
+.about-right{}
+
+/* IDENTITY CARDS */
+.identity-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:2rem}
+.id-card{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);border-radius:var(--r);
+  padding:1.25rem;
+}
+.id-card-icon{font-size:1.3rem;margin-bottom:.6rem}
+.id-card-title{font-size:.85rem;font-weight:600;margin-bottom:.3rem}
+.id-card-body{font-size:.78rem;color:rgba(232,230,224,.5);line-height:1.55}
+
+/* EXPERIENCE SECTION */
+.exp-section{
+  padding:4rem clamp(1.5rem,5vw,3.5rem);
+  max-width:var(--max);margin:0 auto;
+  border-top:1px solid var(--border);
+}
+.section-label{
+  font-family:'DM Mono',monospace;font-size:.7rem;
+  color:var(--accent);letter-spacing:.12em;text-transform:uppercase;
+  display:flex;align-items:center;gap:.6rem;margin-bottom:2.5rem;
+}
+.section-label::before{content:'';width:24px;height:1px;background:var(--accent)}
+.section-h2{
+  font-family:'Clash Display',sans-serif;
+  font-size:clamp(1.8rem,4vw,3.2rem);
+  font-weight:700;letter-spacing:-0.03em;
+  line-height:1.1;margin-bottom:2rem;
+}
+
+.timeline{display:flex;flex-direction:column;gap:0}
+.tl-item{
+  display:grid;grid-template-columns:200px 1fr;
+  gap:2.5rem;padding:2rem 0;
+  border-bottom:1px solid var(--border);
+}
+.tl-left{padding-top:.15rem}
+.tl-date{
+  font-family:'DM Mono',monospace;font-size:.7rem;
+  color:var(--muted);letter-spacing:.04em;margin-bottom:.4rem;
+}
+.tl-company{
+  font-size:.82rem;font-weight:600;color:var(--accent);
+  display:flex;align-items:center;gap:.4rem;
+}
+.tl-role{
+  font-family:'Clash Display',sans-serif;
+  font-size:1.25rem;font-weight:600;
+  letter-spacing:-0.02em;margin-bottom:.75rem;
+}
+.tl-bullets{display:flex;flex-direction:column;gap:.4rem}
+.tl-bullets li{
+  font-size:.83rem;color:rgba(232,230,224,.55);
+  line-height:1.6;display:flex;gap:.6rem;
+}
+.tl-bullets li::before{content:'→';color:var(--accent);font-size:.7rem;margin-top:.3rem;flex-shrink:0}
+.tl-tech{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.85rem}
+.tech-pill{
+  font-family:'DM Mono',monospace;font-size:.65rem;
+  padding:.22rem .6rem;border-radius:100px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  color:rgba(232,230,224,.45);
+}
+
+/* SKILLS SECTION */
+.skills-section{
+  padding:4rem clamp(1.5rem,5vw,3.5rem);
+  max-width:var(--max);margin:0 auto;
+  border-top:1px solid var(--border);
+}
+.skills-layout{
+  display:grid;grid-template-columns:1fr 2fr;
+  gap:4rem;align-items:start;
+}
+.skills-left p{
+  font-size:.95rem;color:rgba(232,230,224,.5);
+  line-height:1.75;font-weight:300;
+  margin-top:1rem;
+}
+.skills-grid{display:flex;flex-direction:column;gap:1.5rem}
+.skill-group-label{
+  font-family:'DM Mono',monospace;font-size:.67rem;
+  color:var(--muted);text-transform:uppercase;letter-spacing:.1em;
+  margin-bottom:.65rem;
+}
+.skill-pills{display:flex;flex-wrap:wrap;gap:.5rem}
+.s-pill{
+  font-size:.8rem;font-weight:500;
+  padding:.38rem .9rem;border-radius:8px;
+  transition:all .2s;
+}
+.sp-blue{background:rgba(14,165,233,.07);border:1px solid rgba(14,165,233,.18);color:rgba(14,165,233,.9)}
+.sp-purple{background:rgba(124,58,237,.07);border:1px solid rgba(124,58,237,.18);color:rgba(167,139,250,.9)}
+.sp-green{background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.18);color:rgba(52,211,153,.9)}
+.sp-amber{background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.18);color:rgba(251,191,36,.9)}
+.sp-red{background:rgba(255,77,46,.07);border:1px solid rgba(255,77,46,.18);color:rgba(255,100,80,.9)}
+.sp-neutral{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:rgba(232,230,224,.6)}
+.s-pill:hover{transform:translateY(-2px)}
+
+/* ROTATING WHEEL */
+.skill-wheel{
+  width:240px;height:240px;border-radius:50%;
+  border:1px solid var(--border);
+  position:relative;
+  animation:spin-slow 20s linear infinite;
+  margin:2rem auto;
+}
+@keyframes spin-slow{to{transform:rotate(360deg)}}
+.skill-wheel-inner{
+  position:absolute;inset:20%;border-radius:50%;
+  background:rgba(255,77,46,.06);border:1px solid rgba(255,77,46,.15);
+  display:flex;align-items:center;justify-content:center;
+  animation:spin-slow 20s linear infinite reverse;
+}
+.skill-wheel-label{
+  font-family:'Clash Display',sans-serif;
+  font-size:.75rem;font-weight:700;letter-spacing:.05em;color:rgba(232,230,224,.4);text-align:center;
+}
+
+/* ── CONTACT PAGE ─────────────────────────────── */
+#page-contact{background:var(--ink)}
+
+.contact-hero{
+  padding:4rem clamp(1.5rem,5vw,3.5rem);
+  max-width:var(--max);margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:4rem;
+  border-bottom:1px solid var(--border);
+}
+.contact-big-h{
+  font-family:'Clash Display',sans-serif;
+  font-size:clamp(3rem,8vw,7rem);
+  font-weight:700;line-height:.92;
+  letter-spacing:-0.05em;
+  margin-bottom:2rem;
+}
+.contact-big-h em{font-style:normal;color:var(--accent)}
+.contact-desc{
+  font-size:1rem;color:rgba(232,230,224,.55);
+  line-height:1.8;font-weight:300;margin-bottom:2rem;max-width:440px;
+}
+.contact-desc strong{color:#e8e6e0;font-weight:500}
+.contact-availability{
+  display:flex;align-items:center;gap:.6rem;
+  font-size:.8rem;color:var(--green);
+  font-family:'DM Mono',monospace;letter-spacing:.06em;
+}
+.avail-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse-dot 2.5s infinite}
+
+.contact-links-col{
+  display:flex;flex-direction:column;gap:.65rem;
+  padding-top:.5rem;
+}
+.c-link-card{
+  display:flex;align-items:center;gap:1rem;
+  padding:1.1rem 1.4rem;
+  background:rgba(255,255,255,.025);
+  border:1px solid var(--border);border-radius:var(--r);
+  text-decoration:none;color:inherit;
+  transition:all .25s;position:relative;overflow:hidden;
+}
+.c-link-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--accent);transform:scaleY(0);transform-origin:bottom;
+  transition:transform .3s;
+}
+.c-link-card:hover{border-color:rgba(255,255,255,.1);transform:translateX(4px)}
+.c-link-card:hover::before{transform:scaleY(1)}
+.c-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.c-link-label{font-size:.68rem;color:var(--muted);letter-spacing:.03em}
+.c-link-val{font-size:.88rem;font-weight:500}
+.c-link-arr{margin-left:auto;font-size:.8rem;color:var(--muted);transition:transform .2s}
+.c-link-card:hover .c-link-arr{transform:translateX(4px)}
+
+/* OPEN TO WORK CARD */
+.otw-card{
+  max-width:var(--max);margin:3rem auto;
+  padding:0 clamp(1.5rem,5vw,3.5rem);
+}
+.otw-inner{
+  background:linear-gradient(135deg,rgba(255,77,46,.08) 0%,rgba(124,58,237,.06) 100%);
+  border:1px solid rgba(255,77,46,.18);
+  border-radius:var(--r2);
+  padding:3rem;
+  display:grid;grid-template-columns:1fr auto;
+  align-items:center;gap:2rem;
+}
+.otw-title{
+  font-family:'Clash Display',sans-serif;
+  font-size:clamp(1.6rem,4vw,3rem);
+  font-weight:700;letter-spacing:-0.03em;
+  margin-bottom:.6rem;
+}
+.otw-desc{font-size:.92rem;color:rgba(232,230,224,.55);line-height:1.7;font-weight:300}
+.otw-badge{
+  display:flex;align-items:center;gap:.5rem;
+  font-family:'DM Mono',monospace;font-size:.7rem;
+  color:var(--green);background:rgba(16,185,129,.08);
+  border:1px solid rgba(16,185,129,.18);
+  padding:.4rem .9rem;border-radius:100px;
+  white-space:nowrap;
+}
+
+/* ── FOOTER ───────────────────────────────────── */
+footer{
+  padding:2rem clamp(1.5rem,5vw,3.5rem);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1rem;
+  max-width:100%;
+}
+.foot-logo{
+  font-family:'Clash Display',sans-serif;
+  font-weight:700;font-size:1rem;letter-spacing:-0.02em;
+}
+.foot-copy{font-size:.72rem;color:var(--muted)}
+.foot-right{display:flex;gap:1.5rem}
+.foot-right a{font-size:.72rem;color:var(--muted);transition:color .2s}
+.foot-right a:hover{color:#e8e6e0}
+
+/* ── ANIMATED ENTRANCE ────────────────────────── */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.25,.46,.45,.94),transform .7s cubic-bezier(.25,.46,.45,.94)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+.reveal-delay-4{transition-delay:.4s}
+
+/* ── MOBILE NAV DRAWER ────────────────────────── */
+.mobile-nav{
+  position:fixed;top:0;right:0;bottom:0;z-index:600;
+  width:280px;
+  background:rgba(10,10,15,.97);
+  backdrop-filter:blur(24px);
+  border-left:1px solid var(--border);
+  transform:translateX(100%);transition:transform .35s cubic-bezier(.25,.46,.45,.94);
+  padding:5rem 2rem 2rem;
+  display:flex;flex-direction:column;gap:0;
+}
+.mobile-nav.open{transform:translateX(0)}
+.mobile-nav a{
+  font-family:'Clash Display',sans-serif;
+  font-size:1.6rem;font-weight:600;letter-spacing:-0.02em;
+  padding:.75rem 0;border-bottom:1px solid var(--border);
+  color:rgba(232,230,224,.7);transition:color .2s;
+}
+.mobile-nav a:hover{color:#e8e6e0}
+.mobile-close{
+  position:absolute;top:1.25rem;right:1.25rem;
+  width:38px;height:38px;border-radius:8px;
+  background:rgba(255,255,255,.06);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;cursor:none;color:rgba(232,230,224,.7);
+  transition:all .2s;
+}
+.mobile-close:hover{color:#e8e6e0;background:rgba(255,255,255,.1)}
+.nav-overlay{
+  position:fixed;inset:0;z-index:590;
+  background:rgba(0,0,0,.6);backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.nav-overlay.open{opacity:1;pointer-events:all}
+
+/* ── RESPONSIVE ───────────────────────────────── */
+@media(max-width:900px){
+  .hero-bottom{grid-template-columns:1fr;gap:1.5rem}
+  .hero-desc{grid-column:1}
+  .hero-actions{align-items:flex-start;flex-direction:row}
+  .hero-bg-letter{display:none}
+  .stats-strip{grid-template-columns:1fr 1fr}
+  .stat-box:nth-child(2){border-right:none}
+  .work-header{grid-template-columns:1fr}
+  .project-row{grid-template-columns:50px 1fr;grid-template-rows:auto auto}
+  .proj-right{align-items:flex-start;grid-column:1/-1}
+  .cs-inner{grid-template-columns:1fr}
+  .about-hero{grid-template-columns:1fr;gap:2.5rem}
+  .identity-grid{grid-template-columns:1fr 1fr}
+  .tl-item{grid-template-columns:1fr;gap:.5rem}
+  .skills-layout{grid-template-columns:1fr;gap:2rem}
+  .contact-hero{grid-template-columns:1fr;gap:2.5rem}
+  .otw-inner{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .nav-menu-btn{display:flex}
+}
+@media(max-width:600px){
+  .stats-strip{grid-template-columns:1fr 1fr}
+  .stat-box:nth-child(odd){border-right:1px solid var(--border)}
+  .stat-box:nth-child(3),.stat-box:nth-child(4){border-top:1px solid var(--border)}
+  .hero-h1{letter-spacing:-0.03em}
+  .clients-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor"><div id="cursor-dot"></div><div id="cursor-ring"></div></div>
+
+<!-- MOBILE OVERLAY -->
+<div class="nav-overlay" id="navOverlay" onclick="closeMobileNav()"></div>
+<div class="mobile-nav" id="mobileNav">
+  <div class="mobile-close" onclick="closeMobileNav()">✕</div>
+  <a href="#" onclick="navigateTo('home');closeMobileNav()">Home</a>
+  <a href="#" onclick="navigateTo('work');closeMobileNav()">Work</a>
+  <a href="#" onclick="navigateTo('about');closeMobileNav()">About</a>
+  <a href="#" onclick="navigateTo('contact');closeMobileNav()">Contact</a>
+  <div style="margin-top:auto">
+    <a href="mailto:jhaayush61@gmail.com" class="btn btn-solid btn-sm" style="margin-top:1.5rem;display:inline-flex">Say Hello →</a>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-mark">AJ</div>
+    Ayush Jha
+  </div>
+  <ul class="nav-links">
+    <li><a href="#" onclick="navigateTo('home')" class="active" id="nav-home">Home</a></li>
+    <li><a href="#" onclick="navigateTo('work')" id="nav-work">Work</a></li>
+    <li><a href="#" onclick="navigateTo('about')" id="nav-about">About</a></li>
+    <li><a href="#" onclick="navigateTo('contact')" id="nav-contact">Contact</a></li>
+    <li><a href="mailto:jhaayush61@gmail.com" class="nav-cta">Say Hello</a></li>
+  </ul>
+  <div class="nav-menu-btn" onclick="openMobileNav()" id="menuBtn">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════ -->
+<!--  PAGE: HOME                                   -->
+<!-- ════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <section class="hero">
+    <div class="hero-bg-letter" aria-hidden="true">AJ</div>
+
+    <div style="z-index:1;position:relative">
+      <div class="hero-eyebrow reveal">
+        <div class="hero-eyebrow-line"></div>
+        <span>Ayush Jha</span>
+        <span>·</span>
+        <span>Software Engineer</span>
+        <span>·</span>
+        <span>Mohali, India</span>
+        <div class="hero-eyebrow-dot"></div>
+      </div>
+
+      <h1 class="hero-h1 reveal reveal-delay-1">
+        Building things<br>
+        <em>beautifully</em><br>
+        <span class="outline-text">and fast.</span>
+      </h1>
+
+      <div class="hero-bottom reveal reveal-delay-2">
+        <p class="hero-desc">
+          CS undergraduate who ships <strong>full-stack web apps</strong>, <strong>AI-powered systems</strong>, and <strong>production websites</strong> for real clients. From RAG pipelines to chess AI to client sites in aviation and film.
+        </p>
+        <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+          <div style="font-family:'DM Mono',monospace;font-size:.7rem;color:var(--muted);letter-spacing:.06em">
+            <div style="color:var(--green);margin-bottom:.2rem">● Open to work</div>
+            <div>Full-time & Freelance</div>
+          </div>
+        </div>
+        <div class="hero-actions">
+          <a href="#" onclick="navigateTo('work')" class="btn btn-solid">View Work →</a>
+          <a href="#" onclick="navigateTo('contact')" class="btn btn-outline">Let's Talk</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-section">
+    <div class="marquee-track" id="marquee">
+      <div class="marquee-item">React.js <span>✦</span> Python <span>✦</span> LangChain <span>✦</span> PostgreSQL <span>✦</span> Supabase <span>✦</span> WordPress <span>✦</span> Firebase <span>✦</span> RAG Systems <span>✦</span> Full-Stack Dev <span>✦</span> AI Engineering <span>✦</span></div>
+      <div class="marquee-item">React.js <span>✦</span> Python <span>✦</span> LangChain <span>✦</span> PostgreSQL <span>✦</span> Supabase <span>✦</span> WordPress <span>✦</span> Firebase <span>✦</span> RAG Systems <span>✦</span> Full-Stack Dev <span>✦</span> AI Engineering <span>✦</span></div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-strip reveal">
+    <div class="stat-box">
+      <div class="stat-num">6+</div>
+      <div class="stat-label">Client sites live</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">4</div>
+      <div class="stat-label">Full-stack projects</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">2+</div>
+      <div class="stat-label">Years experience</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">AI</div>
+      <div class="stat-label">RAG & LangChain</div>
+    </div>
+  </div>
+
+  <!-- FEATURED ON HOME -->
+  <div style="padding:4rem clamp(1.5rem,5vw,3.5rem);max-width:var(--max);margin:0 auto">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2.5rem">
+      <div class="section-label reveal">Selected Work</div>
+      <a href="#" onclick="navigateTo('work')" class="btn btn-outline btn-sm reveal">All Projects →</a>
+    </div>
+    <!-- Mini project cards -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <a href="https://github.com/Ayush264/documind-ai" target="_blank" style="display:block;background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:var(--r2);padding:1.75rem;text-decoration:none;color:inherit;transition:all .25s;position:relative;overflow:hidden" class="reveal home-proj-card" onmouseenter="this.style.borderColor='rgba(255,77,46,.3)'" onmouseleave="this.style.borderColor='rgba(255,255,255,.07)'">
+        <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem">AI · RAG</div>
+        <div style="font-family:'Clash Display',sans-serif;font-size:1.6rem;font-weight:700;letter-spacing:-0.03em;margin-bottom:.5rem">DocuMind AI</div>
+        <div style="font-size:.82rem;color:rgba(232,230,224,.5);line-height:1.65;margin-bottom:1.25rem;font-weight:300">AI document assistant with semantic search, vector embeddings & conversational querying via LangChain.</div>
+        <div style="display:flex;gap:.4rem;flex-wrap:wrap">
+          <span class="ptag">React.js</span><span class="ptag">Python</span><span class="ptag">LangChain</span><span class="ptag">Vector DB</span>
+        </div>
+        <div style="position:absolute;top:1.5rem;right:1.5rem;font-size:.9rem;color:var(--muted);transition:.2s" class="home-arr">↗</div>
+      </a>
+      <a href="https://team-task-manager-production-b8a3.up.railway.app" target="_blank" style="display:block;background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:var(--r2);padding:1.75rem;text-decoration:none;color:inherit;transition:all .25s" class="reveal reveal-delay-1 home-proj-card" onmouseenter="this.style.borderColor='rgba(124,58,237,.3)'" onmouseleave="this.style.borderColor='rgba(255,255,255,.07)'">
+        <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem">Full-Stack · SaaS</div>
+        <div style="font-family:'Clash Display',sans-serif;font-size:1.6rem;font-weight:700;letter-spacing:-0.03em;margin-bottom:.5rem">WorkPilot</div>
+        <div style="font-size:.82rem;color:rgba(232,230,224,.5);line-height:1.65;margin-bottom:1.25rem;font-weight:300">Team task manager with role-based access control, analytics dashboards, and PostgreSQL schema design.</div>
+        <div style="display:flex;gap:.4rem;flex-wrap:wrap">
+          <span class="ptag">React.js</span><span class="ptag">Supabase</span><span class="ptag">PostgreSQL</span>
+        </div>
+        <div style="position:absolute;top:1.5rem;right:1.5rem;font-size:.9rem;color:var(--muted)">↗</div>
+      </a>
+      <a href="https://pocket-charts.vercel.app/" target="_blank" style="display:block;background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:var(--r2);padding:1.75rem;text-decoration:none;color:inherit;transition:all .25s" class="reveal reveal-delay-2 home-proj-card" onmouseenter="this.style.borderColor='rgba(16,185,129,.3)'" onmouseleave="this.style.borderColor='rgba(255,255,255,.07)'">
+        <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem">Finance · Full-Stack</div>
+        <div style="font-family:'Clash Display',sans-serif;font-size:1.6rem;font-weight:700;letter-spacing:-0.03em;margin-bottom:.5rem">Pocket Charts</div>
+        <div style="font-size:.82rem;color:rgba(232,230,224,.5);line-height:1.65;margin-bottom:1.25rem;font-weight:300">Financial tracker with SQL-optimized data persistence, reporting dashboards & UAT-validated backend.</div>
+        <div style="display:flex;gap:.4rem;flex-wrap:wrap">
+          <span class="ptag">JavaScript</span><span class="ptag">SQL</span><span class="ptag">Supabase</span>
+        </div>
+        <div style="position:absolute;top:1.5rem;right:1.5rem;font-size:.9rem;color:var(--muted)">↗</div>
+      </a>
+      <a href="https://pixel-chess-duels.vercel.app/" target="_blank" style="display:block;background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:var(--r2);padding:1.75rem;text-decoration:none;color:inherit;transition:all .25s" class="reveal reveal-delay-3 home-proj-card" onmouseenter="this.style.borderColor='rgba(14,165,233,.3)'" onmouseleave="this.style.borderColor='rgba(255,255,255,.07)'">
+        <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem">Web App · AI Engine</div>
+        <div style="font-family:'Clash Display',sans-serif;font-size:1.6rem;font-weight:700;letter-spacing:-0.03em;margin-bottom:.5rem">Pixel Chess Duels</div>
+        <div style="font-size:.82rem;color:rgba(232,230,224,.5);line-height:1.65;margin-bottom:1.25rem;font-weight:300">Chess app with Minimax + alpha-beta pruning AI engine. Smooth 60fps gameplay and structured state management.</div>
+        <div style="display:flex;gap:.4rem;flex-wrap:wrap">
+          <span class="ptag">React.js</span><span class="ptag">Supabase</span>
+        </div>
+        <div style="position:absolute;top:1.5rem;right:1.5rem;font-size:.9rem;color:var(--muted)">↗</div>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="foot-logo">Ayush Jha</div>
+    <p class="foot-copy">© 2025 · Mohali, India · Available for work</p>
+    <div class="foot-right">
+      <a href="https://github.com/Ayush264" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/ayush-jha-b688b6186/" target="_blank">LinkedIn</a>
+      <a href="mailto:jhaayush61@gmail.com">Email</a>
+    </div>
+  </footer>
+</div>
+
+
+<!-- ════════════════════════════════════════════ -->
+<!--  PAGE: WORK                                   -->
+<!-- ════════════════════════════════════════════ -->
+<div class="page" id="page-work">
+
+  <div class="work-header">
+    <div>
+      <div class="section-label reveal">Featured Projects</div>
+      <h1 class="work-h1 reveal reveal-delay-1">Selected<br><em>Work.</em></h1>
+    </div>
+    <div class="work-meta">
+      <p class="reveal reveal-delay-2">Engineering decisions, real problems solved, and proof-of-work across full-stack, AI, and client production sites.</p>
+      <div class="project-count reveal reveal-delay-3">04 Projects · 06 Client Sites</div>
+    </div>
+  </div>
+
+  <div class="project-list">
+
+    <!-- PROJECT 1 -->
+    <div class="project-row reveal" onclick="toggleCS(this)">
+      <div class="proj-idx">01</div>
+      <div class="proj-main">
+        <div class="proj-name">DocuMind AI</div>
+        <div class="proj-tagline">AI-powered RAG document intelligence system</div>
+        <div class="proj-tags">
+          <span class="ptag">React.js</span><span class="ptag">Python</span><span class="ptag">LangChain</span><span class="ptag">Vector Database</span><span class="ptag">RAG</span>
+        </div>
+        <div class="cs-panel">
+          <div class="cs-inner">
+            <div class="cs-block">
+              <div class="cs-label">🎯 Problem</div>
+              <div class="cs-text">LLMs hallucinate when reasoning over large documents. Users needed accurate, source-grounded answers from their own files — not generic AI responses.</div>
+            </div>
+            <div class="cs-block">
+              <div class="cs-label">⚙️ Engineering</div>
+              <div class="cs-text">Semantic chunking + vector embeddings via LangChain. Retrieval pipeline fetches only contextually relevant document segments per query turn.</div>
+            </div>
+            <div class="cs-block">
+              <div class="cs-label">📈 Impact</div>
+              <div class="cs-text impact">Zero hallucination on in-document facts. Multi-turn conversational querying. Grounded answers with source attribution.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-right">
+        <div class="proj-type-badge">AI · RAG Application</div>
+        <div class="proj-links">
+          <a href="https://github.com/Ayush264/documind-ai" target="_blank" class="proj-link-btn" title="GitHub">⌥</a>
+          <span class="proj-link-btn" style="cursor:none;color:var(--muted);opacity:.4" title="Expand" onclick="event.stopPropagation()">+</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 2 -->
+    <div class="project-row reveal reveal-delay-1" onclick="toggleCS(this)">
+      <div class="proj-idx">02</div>
+      <div class="proj-main">
+        <div class="proj-name">WorkPilot</div>
+        <div class="proj-tagline">Team task manager with role-based access & analytics</div>
+        <div class="proj-tags">
+          <span class="ptag">React.js</span><span class="ptag">Supabase</span><span class="ptag">PostgreSQL</span><span class="ptag">RLS Policies</span>
+        </div>
+        <div class="cs-panel">
+          <div class="cs-inner">
+            <div class="cs-block">
+              <div class="cs-label">🎯 Problem</div>
+              <div class="cs-text">Teams needed a lightweight but powerful task manager with proper role permissions — without the bloat and cost of tools like Jira or Linear.</div>
+            </div>
+            <div class="cs-block">
+              <div class="cs-label">⚙️ Engineering</div>
+              <div class="cs-text">Designed a normalized PostgreSQL schema with Supabase Row Level Security (RLS) policies enforcing role-based access at the database layer, not just frontend.</div>
+            </div>
+            <div class="cs-block">
+              <div class="cs-label">📈 Impact</div>
+              <div class="cs-text impact">Role-based access end-to-end. Analytics dashboards for project monitoring. Scalable schema supporting team hierarchies.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-right">
+        <div class="proj-type-badge">Full-Stack · SaaS</div>
+        <div class="proj-links">
+          <a href="https://team-task-manager-production-b8a3.up.railway.app" target="_blank" class="proj-link-btn" title="Live">↗</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 3 -->
+    <div class="project-row reveal reveal-delay-2" onclick="toggleCS(this)">
+      <div class="proj-idx">03</div>
+      <div class="proj-main">
+        <div class="proj-name">Pocket Charts</div>
+        <div class="proj-tagline">Financial tracker with persistent SQL backend & dashboards</div>
+        <div class="proj-tags">
+          <span class="ptag">JavaScript</span><span class="ptag">SQL</span><span class="ptag">Supabase</span><span class="ptag">UAT Testing</span>
+        </div>
+        <div class="cs-panel">
+          <div class="cs-inner">
+            <div class="cs-block">
+              <div class="cs-label">🎯 Problem</div>
+              <div class="cs-text">Personal finance apps either lack real data persistence or are too complex. Users needed a reliable tracker with secure backend storage and visual reports.</div>
+            </div>
+            <div class="cs-block">
+              <div class="cs-label">⚙️ Engineering</div>
+              <div class="cs-text">Chose Supabase for instant SQL + auth. Optimized aggregate queries for report generation. Ran a full UAT cycle with query performance validation before deployment.</div>
+            </div>
+            <div class="cs-block">
+              <div class="cs-label">📈 Impact</div>
+              <div class="cs-text impact">Secure, persistent multi-category tracking. Real-time reporting dashboards. Query performance validated at scale.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-right">
+        <div class="proj-type-badge">Finance · Full-Stack</div>
+        <div class="proj-links">
+          <a href="https://pocket-charts.vercel.app/" target="_blank" class="proj-link-btn" title="Live">↗</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 4 -->
+    <div class="project-row reveal reveal-delay-3" onclick="toggleCS(this)">
+      <div class="proj-idx">04</div>
+      <div class="proj-main">
+        <div class="proj-name">Pixel Chess Duels</div>
+        <div class="proj-tagline">Full chess app with Minimax AI engine & alpha-beta pruning</div>
+        <div class="proj-tags">
+          <span class="ptag">React.js</span><span class="ptag">Supabase</span><span class="ptag">Minimax Algorithm</span><span class="ptag">State Management</span>
+        </div>
+        <div class="cs-panel">
+          <div class="cs-inner">
+            <div class="cs-block">
+              <div class="cs-label">🎯 Problem</div>
+              <div class="cs-text">Building a chess AI that's both challenging and performant requires careful algorithmic work — naive implementations block the UI thread entirely.</div>
+            </div>
+            <div class="cs-block">
+              <div class="cs-label">⚙️ Engineering</div>
+              <div class="cs-text">Implemented Minimax with alpha-beta pruning to dramatically reduce the game tree search space. Structured state management for move history, undo, and turn logic.</div>
+            </div>
+            <div class="cs-block">
+              <div class="cs-label">📈 Impact</div>
+              <div class="cs-text impact">Smooth 60fps gameplay. Significant pruning of game-tree nodes. Responsive on desktop and mobile without UI lag.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-right">
+        <div class="proj-type-badge">Web App · AI Engine</div>
+        <div class="proj-links">
+          <a href="https://pixel-chess-duels.vercel.app/" target="_blank" class="proj-link-btn" title="Live">↗</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CLIENT WEBSITES -->
+  <div class="client-section">
+    <div class="client-eyebrow reveal">Production Client Work — 06 Sites Live</div>
+    <div class="clients-grid">
+      <a href="https://airmanshipaviation.com/" target="_blank" class="client-tile reveal">
+        <div class="c-emoji">✈️</div>
+        <div><div class="c-name">Airmanship Aviation</div><div class="c-url">airmanshipaviation.com</div></div>
+      </a>
+      <a href="https://amriteshwarmahadevmandir.com/" target="_blank" class="client-tile reveal reveal-delay-1">
+        <div class="c-emoji">🛕</div>
+        <div><div class="c-name">Amriteshwar Mahadev Mandir</div><div class="c-url">amriteshwarmahadevmandir.com</div></div>
+      </a>
+      <a href="https://www.ottimovisuals.com/" target="_blank" class="client-tile reveal reveal-delay-2">
+        <div class="c-emoji">🎬</div>
+        <div><div class="c-name">Ottimo Visuals</div><div class="c-url">ottimovisuals.com</div></div>
+      </a>
+      <a href="https://scopeentertainment.in/" target="_blank" class="client-tile reveal">
+        <div class="c-emoji">🎭</div>
+        <div><div class="c-name">Scope Entertainment</div><div class="c-url">scopeentertainment.in</div></div>
+      </a>
+      <a href="https://vanifilms.com/" target="_blank" class="client-tile reveal reveal-delay-1">
+        <div class="c-emoji">🎥</div>
+        <div><div class="c-name">Vani Films</div><div class="c-url">vanifilms.com</div></div>
+      </a>
+      <a href="https://flyviman.com/" target="_blank" class="client-tile reveal reveal-delay-2">
+        <div class="c-emoji">🛫</div>
+        <div><div class="c-name">FlyViman</div><div class="c-url">flyviman.com</div></div>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="foot-logo">Ayush Jha</div>
+    <p class="foot-copy">© 2025 · Mohali, India</p>
+    <div class="foot-right">
+      <a href="https://github.com/Ayush264" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/ayush-jha-b688b6186/" target="_blank">LinkedIn</a>
+      <a href="mailto:jhaayush61@gmail.com">Email</a>
+    </div>
+  </footer>
+</div>
+
+
+<!-- ════════════════════════════════════════════ -->
+<!--  PAGE: ABOUT                                  -->
+<!-- ════════════════════════════════════════════ -->
+<div class="page" id="page-about">
+
+  <div class="about-hero">
+    <div>
+      <h1 class="about-big-h reveal">
+        The<br>Engineer<br><em>Behind</em><br>The Code.
+      </h1>
+      <p class="about-tagline reveal reveal-delay-1">
+        CS undergraduate. <strong>Builder.</strong> I care about the gap between "it works" and "it's excellent" — in code architecture, UI decisions, and system design.
+      </p>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap" class="reveal reveal-delay-2">
+        <a href="mailto:jhaayush61@gmail.com" class="btn btn-solid btn-sm">Say Hello →</a>
+        <a href="https://www.linkedin.com/in/ayush-jha-b688b6186/" target="_blank" class="btn btn-outline btn-sm">LinkedIn ↗</a>
+      </div>
+    </div>
+    <div class="about-right">
+      <div class="identity-grid reveal reveal-delay-1">
+        <div class="id-card">
+          <div class="id-card-icon">⚡</div>
+          <div class="id-card-title">Performance-First</div>
+          <div class="id-card-body">Alpha-beta pruning for AI. Query optimization for finance apps. Fast is a feature, not an afterthought.</div>
+        </div>
+        <div class="id-card">
+          <div class="id-card-icon">🤖</div>
+          <div class="id-card-title">AI-Native Builder</div>
+          <div class="id-card-body">LangChain, vector DBs, semantic search, RAG pipelines — hands-on with the full AI engineering stack.</div>
+        </div>
+        <div class="id-card">
+          <div class="id-card-icon">🌐</div>
+          <div class="id-card-title">Production-Proven</div>
+          <div class="id-card-body">6+ live client websites. Real traffic. Real feedback. I know what it takes to ship and maintain software in prod.</div>
+        </div>
+        <div class="id-card">
+          <div class="id-card-icon">📊</div>
+          <div class="id-card-title">Analytics & Growth</div>
+          <div class="id-card-body">CleverTap, Firebase analytics, dashboard design, workflow optimization — from MemeChat's growth team.</div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;margin-top:.75rem" class="reveal reveal-delay-2">
+        <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem">Currently</div>
+        <p style="font-size:.85rem;color:rgba(232,230,224,.65);line-height:1.65;font-weight:300">CS undergraduate at Chandigarh University. Building production apps. Looking for full-time engineering roles & freelance contracts. Remote-friendly.</p>
+        <div style="display:flex;align-items:center;gap:.5rem;margin-top:.75rem">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse-dot 2.5s infinite"></div>
+          <span style="font-family:'DM Mono',monospace;font-size:.7rem;color:var(--green);letter-spacing:.06em">Available immediately</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <div class="exp-section">
+    <div class="section-label reveal">Experience</div>
+    <h2 class="section-h2 reveal reveal-delay-1">Where I've Worked</h2>
+
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-left">
+          <div class="tl-date">2023 — Present</div>
+          <div class="tl-company">Scope Entertainment</div>
+        </div>
+        <div>
+          <div class="tl-role">Web Developer</div>
+          <ul class="tl-bullets">
+            <li>Developed and maintained 6+ responsive client websites using WordPress, Elementor, HTML, CSS, and JavaScript</li>
+            <li>Led UI/UX improvements, performance optimization, and SEO across production properties</li>
+            <li>Handled complete client delivery: briefing, development, QA, and deployment</li>
+            <li>Clients span aviation, entertainment, hospitality, film, and religious institutions</li>
+          </ul>
+          <div class="tl-tech">
+            <span class="tech-pill">WordPress</span><span class="tech-pill">Elementor</span><span class="tech-pill">JavaScript</span><span class="tech-pill">HTML/CSS</span><span class="tech-pill">SEO</span><span class="tech-pill">Performance Opt.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal reveal-delay-1">
+        <div class="tl-left">
+          <div class="tl-date">2022 — 2023</div>
+          <div class="tl-company">MemeChat Pvt Ltd</div>
+        </div>
+        <div>
+          <div class="tl-role">Growth Hacker (Remote)</div>
+          <ul class="tl-bullets">
+            <li>Operated CleverTap and Firebase for user engagement campaigns and push notification workflows</li>
+            <li>Assisted in user retention analytics, reporting, and campaign performance optimization</li>
+            <li>Contributed to operational process improvements through data-driven workflow execution</li>
+          </ul>
+          <div class="tl-tech">
+            <span class="tech-pill">CleverTap</span><span class="tech-pill">Firebase</span><span class="tech-pill">Analytics</span><span class="tech-pill">User Retention</span><span class="tech-pill">Growth Ops</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="skills-section">
+    <div class="skills-layout">
+      <div>
+        <div class="section-label reveal">Skills</div>
+        <h2 class="section-h2 reveal reveal-delay-1">My Tech<br>Stack.</h2>
+        <p class="reveal reveal-delay-2">Tools I reach for daily — and the ones I pull out when the problem demands it. Spanning frontend, AI, databases, and CMS.</p>
+      </div>
+      <div class="skills-grid reveal reveal-delay-1">
+        <div>
+          <div class="skill-group-label" style="color:var(--accent3)">Frontend</div>
+          <div class="skill-pills">
+            <span class="s-pill sp-blue">React.js</span><span class="s-pill sp-blue">JavaScript</span><span class="s-pill sp-blue">HTML5</span><span class="s-pill sp-blue">CSS3</span><span class="s-pill sp-blue">Tailwind CSS</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-label" style="color:var(--accent2)">AI / ML</div>
+          <div class="skill-pills">
+            <span class="s-pill sp-purple">Python</span><span class="s-pill sp-purple">LangChain</span><span class="s-pill sp-purple">RAG Systems</span><span class="s-pill sp-purple">Vector DB</span><span class="s-pill sp-purple">Semantic Search</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-label" style="color:var(--green)">Database & Backend</div>
+          <div class="skill-pills">
+            <span class="s-pill sp-green">PostgreSQL</span><span class="s-pill sp-green">SQL</span><span class="s-pill sp-green">Supabase</span><span class="s-pill sp-green">Firebase</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-label" style="color:var(--gold)">CMS & Web</div>
+          <div class="skill-pills">
+            <span class="s-pill sp-amber">WordPress</span><span class="s-pill sp-amber">Elementor</span><span class="s-pill sp-amber">SEO</span><span class="s-pill sp-amber">Performance</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-label" style="color:var(--accent3)">Analytics & Growth</div>
+          <div class="skill-pills">
+            <span class="s-pill sp-blue">CleverTap</span><span class="s-pill sp-blue">Firebase Analytics</span><span class="s-pill sp-blue">GA4</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-label">Tools</div>
+          <div class="skill-pills">
+            <span class="s-pill sp-neutral">Git</span><span class="s-pill sp-neutral">GitHub</span><span class="s-pill sp-neutral">Linux</span><span class="s-pill sp-neutral">Vercel</span><span class="s-pill sp-neutral">Railway</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="foot-logo">Ayush Jha</div>
+    <p class="foot-copy">© 2025 · Mohali, India</p>
+    <div class="foot-right">
+      <a href="https://github.com/Ayush264" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/ayush-jha-b688b6186/" target="_blank">LinkedIn</a>
+      <a href="mailto:jhaayush61@gmail.com">Email</a>
+    </div>
+  </footer>
+</div>
+
+
+<!-- ════════════════════════════════════════════ -->
+<!--  PAGE: CONTACT                                -->
+<!-- ════════════════════════════════════════════ -->
+<div class="page" id="page-contact">
+
+  <div class="contact-hero">
+    <div>
+      <div class="section-label reveal">Get In Touch</div>
+      <h1 class="contact-big-h reveal reveal-delay-1">
+        Let's<br>build<br><em>something</em><br>great.
+      </h1>
+      <p class="contact-desc reveal reveal-delay-2">
+        Whether you're hiring, exploring a <strong>freelance project</strong>, or want to collaborate on something ambitious — I'd love to hear from you. I typically respond within 24 hours.
+      </p>
+      <div class="contact-availability reveal reveal-delay-3">
+        <div class="avail-dot"></div>
+        Available · Full-time & Freelance · Remote-friendly
+      </div>
+    </div>
+
+    <div class="contact-links-col">
+      <a href="mailto:jhaayush61@gmail.com" class="c-link-card reveal">
+        <div class="c-ico" style="background:rgba(255,77,46,.08);font-size:1rem">📧</div>
+        <div><div class="c-link-label">Email</div><div class="c-link-val">jhaayush61@gmail.com</div></div>
+        <div class="c-link-arr">→</div>
+      </a>
+      <a href="tel:+917838228983" class="c-link-card reveal reveal-delay-1">
+        <div class="c-ico" style="background:rgba(16,185,129,.08);font-size:1rem">📱</div>
+        <div><div class="c-link-label">Phone</div><div class="c-link-val">+91 78382 28983</div></div>
+        <div class="c-link-arr">→</div>
+      </a>
+      <a href="https://github.com/Ayush264" target="_blank" class="c-link-card reveal reveal-delay-2">
+        <div class="c-ico" style="background:rgba(124,58,237,.08);font-size:1rem">🐙</div>
+        <div><div class="c-link-label">GitHub</div><div class="c-link-val">github.com/Ayush264</div></div>
+        <div class="c-link-arr">→</div>
+      </a>
+      <a href="https://www.linkedin.com/in/ayush-jha-b688b6186/" target="_blank" class="c-link-card reveal reveal-delay-3">
+        <div class="c-ico" style="background:rgba(14,165,233,.08);font-size:1rem">💼</div>
+        <div><div class="c-link-label">LinkedIn</div><div class="c-link-val">linkedin.com/in/ayush-jha-b688b6186</div></div>
+        <div class="c-link-arr">→</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- OPEN TO WORK CARD -->
+  <div class="otw-card">
+    <div class="otw-inner reveal">
+      <div>
+        <div class="otw-badge" style="margin-bottom:1rem;display:inline-flex"><div style="width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse-dot 2.5s infinite"></div> Open to opportunities</div>
+        <h2 class="otw-title">Ready to contribute<br>from day one.</h2>
+        <p class="otw-desc">CS undergraduate seeking full-time software engineering roles or serious freelance projects. I ship fast, write code I'm proud of, and work well in collaborative teams. India-based · Remote preferred.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.75rem;flex-shrink:0">
+        <a href="mailto:jhaayush61@gmail.com" class="btn btn-solid">Send a Message →</a>
+        <a href="https://www.linkedin.com/in/ayush-jha-b688b6186/" target="_blank" class="btn btn-outline">Connect on LinkedIn ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="foot-logo">Ayush Jha</div>
+    <p class="foot-copy">© 2025 · Mohali, India · jhaayush61@gmail.com</p>
+    <div class="foot-right">
+      <a href="https://github.com/Ayush264" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/ayush-jha-b688b6186/" target="_blank">LinkedIn</a>
+    </div>
+  </footer>
+</div>
+
+
+<!-- ════════════════════════════════════════════ -->
+<!--  SCRIPTS                                      -->
+<!-- ════════════════════════════════════════════ -->
+<script>
+// ── CURSOR ────────────────────────────────────
+const dot = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  dot.style.left=mx+'px';dot.style.top=my+'px';
+});
+function animateRing(){
+  rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(animateRing);
+}animateRing();
+
+document.querySelectorAll('a,button,.btn,.project-row,.client-tile,.c-link-card,.home-proj-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{
+    ring.style.width='60px';ring.style.height='60px';
+    ring.style.borderColor='rgba(255,77,46,.4)';
+    dot.style.opacity='0';
+  });
+  el.addEventListener('mouseleave',()=>{
+    ring.style.width='36px';ring.style.height='36px';
+    ring.style.borderColor='rgba(255,255,255,.5)';
+    dot.style.opacity='1';
+  });
+});
+
+// ── MULTI-PAGE ROUTER ─────────────────────────
+const pages=['home','work','about','contact'];
+function navigateTo(id){
+  pages.forEach(p=>{
+    document.getElementById('page-'+p).classList.remove('active');
+    const navLink=document.getElementById('nav-'+p);
+    if(navLink)navLink.classList.remove('active');
+  });
+  document.getElementById('page-'+id).classList.add('active');
+  const navLink=document.getElementById('nav-'+id);
+  if(navLink)navLink.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(triggerReveal,100);
+  return false;
+}
+// nav link click — prevent default
+document.querySelectorAll('.nav-links a:not(.nav-cta)').forEach(a=>{
+  a.addEventListener('click',e=>e.preventDefault());
+});
+
+// ── MOBILE NAV ────────────────────────────────
+function openMobileNav(){
+  document.getElementById('mobileNav').classList.add('open');
+  document.getElementById('navOverlay').classList.add('open');
+}
+function closeMobileNav(){
+  document.getElementById('mobileNav').classList.remove('open');
+  document.getElementById('navOverlay').classList.remove('open');
+}
+
+// ── SCROLL REVEAL ─────────────────────────────
+function triggerReveal(){
+  document.querySelectorAll('#page-'+getCurrentPage()+' .reveal').forEach(el=>{
+    el.classList.add('visible');
+  });
+}
+function getCurrentPage(){
+  for(const p of pages){
+    if(document.getElementById('page-'+p).classList.contains('active'))return p;
+  }return'home';
+}
+// Initial reveal on load
+window.addEventListener('load',()=>{
+  setTimeout(triggerReveal,50);
+});
+// Observe for scroll reveals
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ── CASE STUDY TOGGLE ─────────────────────────
+function toggleCS(row){
+  const wasExpanded=row.classList.contains('expanded');
+  document.querySelectorAll('.project-row.expanded').forEach(r=>r.classList.remove('expanded'));
+  if(!wasExpanded)row.classList.add('expanded');
+}
+
+// ── NAV SCROLL TINT ───────────────────────────
+window.addEventListener('scroll',()=>{
+  document.querySelector('nav').style.background=
+    window.scrollY>40?'rgba(10,10,15,.95)':'rgba(10,10,15,.6)';
+});
+</script>
+</body>
+</html>
